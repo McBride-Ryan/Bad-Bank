@@ -40,6 +40,11 @@ function NavBar() {
               </a>
             </li>
             <li className="nav-item">
+              <a  href="#/login/">
+                Login
+              </a>
+            </li>
+            <li className="nav-item">
               <a  href="#/CreateAccount/">
                 Create Account
               </a>
