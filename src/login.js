@@ -1,73 +1,62 @@
-import React from 'react';
-import { Card } from "./context";
+// import { Card } from "./context";
+import React, { useRef, useState } from "react"
+import { Form, Button, Alert, Card } from "react-bootstrap"
+import { useAuth } from "./contexts/AuthContext"
+import { Link, useHistory } from "react-router-dom"
 
-function Login(){
-  const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState('');    
 
-  return (
-    <Card
-      className="mx-auto"
-      header="Login"
-      status={status}
-      body={show ? 
-        <LoginForm setShow={setShow} setStatus={setStatus}/> :
-        <LoginMsg setShow={setShow} setStatus={setStatus}/>}
-    />
-  ) 
-}
+function Login() {
+  const emailRef = useRef()
+  const passwordRef = useRef()
+  const  login  = useAuth()
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+  const history = useHistory()
 
-function LoginMsg(props){
-  return(<>
-    <h5>Success</h5>
-    <button type="submit" 
-      className="btn btn-light" 
-      onClick={() => props.setShow(true)}>
-        Authenticate again
-    </button>
-  </>);
-}
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-function LoginForm(props){
-  const [email, setEmail]       = React.useState('');
-  const [password, setPassword] = React.useState('');
+    try {
+      setError("")
+      setLoading(true)
+      await login(emailRef.current.value, passwordRef.current.value)
+      history.push("/")
+    } catch {
+      setError("Failed to log in")
+    }
 
-  function handle(){
-    fetch(`/account/login/${email}/${password}`)
-    .then(response => response.text())
-    .then(text => {
-        try {
-            const data = JSON.parse(text);
-            props.setStatus('');
-            props.setShow(false);
-            console.log('JSON:', data);
-        } catch(err) {
-            props.setStatus(text)
-            console.log('err:', text);
-        }
-    });
+    setLoading(false)
   }
 
-
-  return (<>
-
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
-
-    Password<br/>
-    <input type="password" 
-      className="form-control" 
-      placeholder="Enter password" 
-      value={password} 
-      onChange={e => setPassword(e.currentTarget.value)}/><br/>
-
-    <button type="submit" className="btn btn-outline-primary mb-1 w-100" onClick={handle}>Login</button>
-   
-  </>);
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <h2 className="text-center mb-4">Log In</h2>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group id="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" ref={emailRef} required />
+            </Form.Group>
+            <Form.Group id="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" ref={passwordRef} required />
+            </Form.Group>
+            <Button disabled={loading} className="w-50" type="submit">
+              Log In
+            </Button>
+          </Form>
+          <div className="w-100 text-center mt-3">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+        </Card.Body>
+        <div className="w-100 text-center m-2">
+        Need an account? <Link to="/signup">Sign Up</Link>
+      </div>
+      </Card>
+      
+    </>
+  )
 }
-
-export {Login}
+export {Login};
