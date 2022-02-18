@@ -5,8 +5,8 @@ function Home() {
     <Card
       className="mx-auto"
       txtcolor="black"
-      header="Hamm Banking using ReactJS"
-      title="Hamm is a wise-cracking plastic piggy bank with a cork in his belly. His alter ego, Evil Doctor Porkchop, spends all his money. However, Hamm is definitely a saver."
+      header="Banking"
+      title="Hurry now! New Users collect a bonus $100 when they create an account! Don't miss out!"
       body={
         <img src="bank.png" className="img-fluid" alt="Welcome to BadBank" />
       }

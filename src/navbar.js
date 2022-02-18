@@ -46,7 +46,7 @@ function NavBar() {
             </li>
             <li className="nav-item">
               <a  href="#/CreateAccount/">
-                Create Account
+                Create User
               </a>
             </li>
           </ul>
