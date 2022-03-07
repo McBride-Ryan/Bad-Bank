@@ -3,7 +3,7 @@ function NavBar() {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark">
         <a className="navbar-brand" href="/">
-        Hamm Banking
+        Reacts Banking
         </a>
         <button
           className="navbar-toggler"
@@ -39,11 +39,11 @@ function NavBar() {
                 Withdraw
               </a>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a  href="#/login/">
                 Login
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a  href="#/CreateAccount/">
                 Create User
